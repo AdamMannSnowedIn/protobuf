@@ -1,0 +1,21 @@
+Building protoc, OS=windows ARCH=x86_64 TARGET=protoc
+checking whether to enable maintainer-specific portions of Makefiles... yes
+checking build system type... x86_64-pc-cygwin
+checking host system type... x86_64-w64-mingw32
+checking target system type... x86_64-w64-mingw32
+checking for a BSD-compatible install... /bin/install -c
+checking whether build environment is sane... yes
+checking for x86_64-w64-mingw32-strip... x86_64-w64-mingw32-strip
+checking for a thread-safe mkdir -p... /bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... no
+checking whether make supports nested variables... no
+checking whether UID '1129213' is supported by ustar format... yes
+checking whether GID '1049089' is supported by ustar format... yes
+checking how to create a ustar tar archive... gnutar
+checking whether make supports nested variables... (cached) no
+checking for x86_64-w64-mingw32-gcc... x86_64-w64-mingw32-gcc
+checking whether the C compiler works... no
+configure: error: in `/home/adam.mann/protobuf/protoc-artifacts/build/windows/x86_64':
+configure: error: C compiler cannot create executables
+See `config.log' for more details
