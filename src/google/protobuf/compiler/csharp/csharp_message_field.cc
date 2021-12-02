@@ -64,6 +64,7 @@ MessageFieldGenerator::~MessageFieldGenerator() {
 }
 
 void MessageFieldGenerator::GenerateMembers(io::Printer* printer) {
+    AddUnitySerializedFieldAttr(printer);
   printer->Print(
     variables_,
     "private $type_name$ $name$_;\n");
@@ -73,7 +74,7 @@ void MessageFieldGenerator::GenerateMembers(io::Printer* printer) {
     variables_,
     "$access_level$ $type_name$ $property_name$ {\n"
     "  get { return $name$_; }\n"
-    "  set {\n"
+    "  internal set {\n"
     "    $name$_ = value;\n"
     "  }\n"
     "}\n");
@@ -223,7 +224,7 @@ void MessageOneofFieldGenerator::GenerateMembers(io::Printer* printer) {
     variables_,
     "$access_level$ $type_name$ $property_name$ {\n"
     "  get { return $has_property_check$ ? ($type_name$) $oneof_name$_ : null; }\n"
-    "  set {\n"
+    "  internal set {\n"
     "    $oneof_name$_ = value;\n"
     "    $oneof_name$Case_ = value == null ? $oneof_property_name$OneofCase.None : $oneof_property_name$OneofCase.$property_name$;\n"
     "  }\n"

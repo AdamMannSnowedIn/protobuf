@@ -74,6 +74,7 @@ void RepeatedMessageFieldGenerator::GenerateMembers(io::Printer* printer) {
     single_generator->GenerateCodecCode(printer);
   }
   printer->Print(";\n");
+  AddUnitySerializedFieldAttr(printer);
   printer->Print(
     variables_,
     "private readonly pbc::RepeatedField<$type_name$> $name$_ = new pbc::RepeatedField<$type_name$>();\n");

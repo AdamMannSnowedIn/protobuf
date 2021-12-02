@@ -108,9 +108,7 @@ namespace google {
 				}
 
 				void MessageGenerator::AddSerializableAttribute(io::Printer* printer) {
-					if (this->options()->serializable) {
-						printer->Print("[global::System.SerializableAttribute]\n");
-					}
+					printer->Print("[global::System.SerializableAttribute]\n");
 				}
 
 				void MessageGenerator::Generate(io::Printer* printer) {

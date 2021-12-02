@@ -67,6 +67,7 @@ void PrimitiveFieldGenerator::GenerateMembers(io::Printer* printer) {
   // null, or whether we just handle it, in the cases of bytes and string.
   // (Basically, should null-handling code be in the getter or the setter?)
   if (IsProto2(descriptor_->file())) {
+      AddUnitySerializedFieldAttr(printer);
     printer->Print(
       variables_,
       "private readonly static $type_name$ $property_name$DefaultValue = $default_value$;\n\n");
@@ -84,20 +85,20 @@ void PrimitiveFieldGenerator::GenerateMembers(io::Printer* printer) {
         variables_,
         "$access_level$ $type_name$ $property_name$ {\n"
         "  get { return $name$_ ?? $property_name$DefaultValue; }\n"
-        "  set {\n");
+        "  internal set {\n");
     } else {
       printer->Print(
         variables_,
         "$access_level$ $type_name$ $property_name$ {\n"
         "  get { if ($has_field_check$) { return $name$_; } else { return $property_name$DefaultValue; } }\n"
-        "  set {\n");
+        "  internal set {\n");
     }
   } else {
     printer->Print(
       variables_,
       "$access_level$ $type_name$ $property_name$ {\n"
       "  get { return $name$_; }\n"
-      "  set {\n");
+      "  internal set {\n");
   }
   if (presenceIndex_ != -1) {
     printer->Print(
@@ -255,7 +256,7 @@ void PrimitiveOneofFieldGenerator::GenerateMembers(io::Printer* printer) {
     variables_,
     "$access_level$ $type_name$ $property_name$ {\n"
     "  get { return $has_property_check$ ? ($type_name$) $oneof_name$_ : $default_value$; }\n"
-    "  set {\n");
+    "  internal set {\n");
   if (is_value_type) {
     printer->Print(
       variables_,

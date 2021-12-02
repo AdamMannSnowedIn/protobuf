@@ -60,6 +60,7 @@ void RepeatedEnumFieldGenerator::GenerateMembers(io::Printer* printer) {
     variables_,
     "private static readonly pb::FieldCodec<$type_name$> _repeated_$name$_codec\n"
     "    = pb::FieldCodec.ForEnum($tag$, x => (int) x, x => ($type_name$) x);\n");
+  AddUnitySerializedFieldAttr(printer);
   printer->Print(variables_,
     "private readonly pbc::RepeatedField<$type_name$> $name$_ = new pbc::RepeatedField<$type_name$>();\n");
   WritePropertyDocComment(printer, descriptor_);

@@ -67,9 +67,10 @@ void WrapperFieldGenerator::GenerateMembers(io::Printer* printer) {
         variables_,
         "private static readonly pb::FieldCodec<$type_name$> _single_$name$_codec = ");
   GenerateCodecCode(printer);
+  printer->Print(";\n");
+  AddUnitySerializedFieldAttr(printer);
   printer->Print(
     variables_,
-    ";\n"
     "private $type_name$ $name$_;\n");
   WritePropertyDocComment(printer, descriptor_);
   AddPublicMemberAttributes(printer);
@@ -77,7 +78,7 @@ void WrapperFieldGenerator::GenerateMembers(io::Printer* printer) {
     variables_,
     "$access_level$ $type_name$ $property_name$ {\n"
     "  get { return $name$_; }\n"
-    "  set {\n"
+    "  internal set {\n"
     "    $name$_ = value;\n"
     "  }\n"
     "}\n\n");
@@ -214,7 +215,7 @@ void WrapperOneofFieldGenerator::GenerateMembers(io::Printer* printer) {
     variables_,
     "$access_level$ $type_name$ $property_name$ {\n"
     "  get { return $has_property_check$ ? ($type_name$) $oneof_name$_ : ($type_name$) null; }\n"
-    "  set {\n"
+    "  internal set {\n"
     "    $oneof_name$_ = value;\n"
     "    $oneof_name$Case_ = value == null ? $oneof_property_name$OneofCase.None : $oneof_property_name$OneofCase.$property_name$;\n"
     "  }\n"

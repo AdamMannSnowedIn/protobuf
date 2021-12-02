@@ -170,6 +170,16 @@ void FieldGeneratorBase::AddDeprecatedFlag(io::Printer* printer) {
   }
 }
 
+void FieldGeneratorBase::AddUnitySerializedFieldAttr(io::Printer* printer) {
+    printer->Outdent();
+    printer->Print("#if UNITY_EDITOR\n");
+    printer->Indent();
+    printer->Print("[UnityEngine.SerializeField]\n");
+    printer->Outdent();
+    printer->Print("#endif\n");
+    printer->Indent();
+}
+
 void FieldGeneratorBase::AddPublicMemberAttributes(io::Printer* printer) {
   AddDeprecatedFlag(printer);
   WriteGeneratedCodeAttributes(printer);
