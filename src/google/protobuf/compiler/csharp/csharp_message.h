@@ -39,54 +39,54 @@
 #include <google/protobuf/compiler/csharp/csharp_helpers.h>
 
 namespace google {
-namespace protobuf {
-namespace compiler {
-namespace csharp {
+	namespace protobuf {
+		namespace compiler {
+			namespace csharp {
 
-class FieldGeneratorBase;
+				class FieldGeneratorBase;
 
-class MessageGenerator : public SourceGeneratorBase {
- public:
-  MessageGenerator(const Descriptor* descriptor, const Options* options);
-  ~MessageGenerator();
+				class MessageGenerator : public SourceGeneratorBase {
+				public:
+					MessageGenerator(const Descriptor* descriptor, const Options* options);
+					~MessageGenerator();
 
-  MessageGenerator(const MessageGenerator&) = delete;
-  MessageGenerator& operator=(const MessageGenerator&) = delete;
+					MessageGenerator(const MessageGenerator&) = delete;
+					MessageGenerator& operator=(const MessageGenerator&) = delete;
 
-  void GenerateCloningCode(io::Printer* printer);
-  void GenerateFreezingCode(io::Printer* printer);
-  void GenerateFrameworkMethods(io::Printer* printer);
-  void Generate(io::Printer* printer);
+					void GenerateCloningCode(io::Printer* printer);
+					void GenerateFreezingCode(io::Printer* printer);
+					void GenerateFrameworkMethods(io::Printer* printer);
+					void Generate(io::Printer* printer);
 
- private:
-  const Descriptor* descriptor_;
-  std::vector<const FieldDescriptor*> fields_by_number_;
-  int has_bit_field_count_;
-  uint end_tag_;
-  bool has_extension_ranges_;
+				private:
+					const Descriptor* descriptor_;
+					std::vector<const FieldDescriptor*> fields_by_number_;
+					int has_bit_field_count_;
+					uint end_tag_;
+					bool has_extension_ranges_;
 
-  void GenerateMessageSerializationMethods(io::Printer* printer);
-  void GenerateMergingMethods(io::Printer* printer);
+					void GenerateMessageSerializationMethods(io::Printer* printer);
+					void GenerateMergingMethods(io::Printer* printer);
 
-  int GetPresenceIndex(const FieldDescriptor* descriptor);
-  FieldGeneratorBase* CreateFieldGeneratorInternal(
-      const FieldDescriptor* descriptor);
+					int GetPresenceIndex(const FieldDescriptor* descriptor);
+					FieldGeneratorBase* CreateFieldGeneratorInternal(
+						const FieldDescriptor* descriptor);
 
-  bool HasNestedGeneratedTypes();
+					bool HasNestedGeneratedTypes();
 
-  void AddDeprecatedFlag(io::Printer* printer);
-  void AddSerializableAttribute(io::Printer* printer);
+					void AddDeprecatedFlag(io::Printer* printer);
+					void AddSerializableAttribute(io::Printer* printer);
 
-  std::string class_name();
-  std::string full_class_name();
+					std::string class_name();
+					std::string full_class_name();
 
-  // field descriptors sorted by number
-  const std::vector<const FieldDescriptor*>& fields_by_number();
-};
+					// field descriptors sorted by number
+					const std::vector<const FieldDescriptor*>& fields_by_number();
+				};
 
-}  // namespace csharp
-}  // namespace compiler
-}  // namespace protobuf
+			}  // namespace csharp
+		}  // namespace compiler
+	}  // namespace protobuf
 }  // namespace google
 
 #endif  // GOOGLE_PROTOBUF_COMPILER_CSHARP_MESSAGE_H__
