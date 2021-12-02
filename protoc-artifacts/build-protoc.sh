@@ -187,7 +187,7 @@ checkDependencies ()
 
 echo "Building protoc, OS=$OS ARCH=$ARCH TARGET=$MAKE_TARGET"
 
-CONFIGURE_ARGS="--disable-shared"
+CONFIGURE_ARGS="--disable-shared --disable-dependency-tracking"
 
 if [[ "$OS" == windows ]]; then
   MAKE_TARGET="${MAKE_TARGET}.exe"
