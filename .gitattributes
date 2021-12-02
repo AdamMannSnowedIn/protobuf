@@ -1,3 +1,4 @@
-*.sh     -crlf
-*.ac     -crlf
-*.am     -crlf
+*.sh     -lf
+*.ac     -lf
+*.am     -lf
+*.sh	 -lf
