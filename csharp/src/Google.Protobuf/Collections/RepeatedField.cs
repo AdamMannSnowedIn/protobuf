@@ -46,7 +46,9 @@ namespace Google.Protobuf.Collections
     /// supported by Protocol Buffers but nor does it guarantee that all operations will work in such cases.
     /// </remarks>
     /// <typeparam name="T">The element type of the repeated field.</typeparam>
-    [Serializable]
+#if UNITY_EDITOR
+    [global::System.SerializableAttribute]
+#endif
     public sealed class RepeatedField<T> : IList<T>, IList, IDeepCloneable<RepeatedField<T>>, IEquatable<RepeatedField<T>>
 #if !NET35
         , IReadOnlyList<T>
@@ -96,16 +98,15 @@ namespace Google.Protobuf.Collections
 
         public static List<T> Clone(List<T> list)
         {
-            List<T> clone;
+            List<T> clone = new List<T>();
             if (list.Count > 0)
             {
                 List<IDeepCloneable<T>> cloneableList = list as List<IDeepCloneable<T>>;
-                if (cloneableArray == null)
+                if (cloneableList == null)
                 {
                     clone = new List<T>(list);
                 } else
                 {
-                    clone = new List<T>();
                     foreach(IDeepCloneable<T> clonable in cloneableList)
                     {
                         clone.Add(clonable.Clone());
@@ -166,7 +167,7 @@ namespace Google.Protobuf.Collections
                     int oldLimit = input.PushLimit(length);
                     while (!input.ReachedLimit)
                     {
-                        RepeatedField.Add(list, reader(input));
+                        Add(list, reader(input));
                     }
                     input.PopLimit(oldLimit);
                 }
@@ -177,7 +178,7 @@ namespace Google.Protobuf.Collections
                 // Not packed... (possibly not packable)
                 do
                 {
-                    RepeatedField.Add(list, reader(input));
+                    Add(list, reader(input));
                 } while (input.MaybeConsumeTag(tag));
             }
         }
@@ -223,7 +224,7 @@ namespace Google.Protobuf.Collections
             uint tag = codec.Tag;
             if (codec.PackedRepeatedField)
             {
-                int dataSize = CalculatePackedDataSize(codec);
+                int dataSize = CalculatePackedDataSize(list, codec);
                 return CodedOutputStream.ComputeRawVarint32Size(tag) +
                     CodedOutputStream.ComputeLengthSize(dataSize) +
                     dataSize;
@@ -256,6 +257,25 @@ namespace Google.Protobuf.Collections
             else
             {
                 return fixedSize * Count;
+            }
+        }
+
+        private static int CalculatePackedDataSize(List<T> list, FieldCodec<T> codec)
+        {
+            int fixedSize = codec.FixedSize;
+            if (fixedSize == 0)
+            {
+                var calculator = codec.ValueSizeCalculator;
+                int tmp = 0;
+                for (int i = 0; i < list.Count; i++)
+                {
+                    tmp += calculator(list[i]);
+                }
+                return tmp;
+            }
+            else
+            {
+                return fixedSize * list.Count;
             }
         }
 
@@ -311,7 +331,7 @@ namespace Google.Protobuf.Collections
             if (codec.PackedRepeatedField)
             {
                 // Packed primitive type
-                uint size = (uint)CalculatePackedDataSize(codec);
+                uint size = (uint)CalculatePackedDataSize(list, codec);
                 output.WriteTag(tag);
                 output.WriteRawVarint32(size);
                 for (int i = 0; i < list.Count; i++)
@@ -668,7 +688,7 @@ namespace Google.Protobuf.Collections
             }
         }
 
-        #region Explicit interface implementation for IList and ICollection.
+#region Explicit interface implementation for IList and ICollection.
         bool IList.IsFixedSize => false;
 
         void ICollection.CopyTo(Array array, int index)
@@ -719,6 +739,6 @@ namespace Google.Protobuf.Collections
             }
             Remove((T)value);
         }
-        #endregion        
+#endregion
     }
 }
