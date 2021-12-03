@@ -174,10 +174,6 @@ namespace google {
 					}
 				}
 
-				void FieldGeneratorBase::AddUnitySerializedFieldAttr(io::Printer* printer) {
-					printer->Print("[UnityEngine.SerializeField]\n");
-				}
-
 				void FieldGeneratorBase::AddPublicMemberAttributes(io::Printer* printer) {
 					AddDeprecatedFlag(printer);
 					WriteGeneratedCodeAttributes(printer);

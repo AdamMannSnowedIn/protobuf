@@ -64,9 +64,9 @@ namespace google {
 				}
 
 				void MessageFieldGenerator::GenerateMembers(io::Printer* printer) {
-					AddUnitySerializedFieldAttr(printer);
 					printer->Print(
 						variables_,
+						"[UnityEngine.SerializeField]\n"
 						"private $type_name$ $name$_;\n");
 					WritePropertyDocComment(printer, descriptor_);
 					AddPublicMemberAttributes(printer);

@@ -72,9 +72,9 @@ namespace google {
 							"private readonly static $type_name$ $property_name$DefaultValue = $default_value$;\n\n");
 					}
 
-					AddUnitySerializedFieldAttr(printer);
 					printer->Print(
 						variables_,
+						"[UnityEngine.SerializeField]\n"
 						"private $type_name$ $name_def_message$;\n");
 
 					WritePropertyDocComment(printer, descriptor_);

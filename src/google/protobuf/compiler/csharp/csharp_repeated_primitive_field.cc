@@ -59,8 +59,8 @@ namespace google {
 					printer->Print(
 						variables_,
 						"private static readonly pb::FieldCodec<$type_name$> _repeated_$name$_codec\n"
-						"    = pb::FieldCodec.For$capitalized_type_name$($tag$);\n");
-					AddUnitySerializedFieldAttr(printer);
+						"    = pb::FieldCodec.For$capitalized_type_name$($tag$);\n"
+						"[UnityEngine.SerializeField]\n");
 					printer->Print(variables_,
 						"private readonly pbc::RepeatedField<$type_name$> $name$_ = new pbc::RepeatedField<$type_name$>();\n");
 					WritePropertyDocComment(printer, descriptor_);

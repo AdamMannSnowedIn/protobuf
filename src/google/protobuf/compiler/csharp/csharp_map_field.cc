@@ -77,8 +77,8 @@ namespace google {
 					printer->Print(
 						variables_,
 						", $tag$);\n"
-						AddUnitySerializedFieldAttr(printer);
-					"private readonly pbc::MapField<$key_type_name$, $value_type_name$> $name$_ = new pbc::MapField<$key_type_name$, $value_type_name$>();\n");
+						"[UnityEngine.SerializeField]\n"
+						"private readonly pbc::MapField<$key_type_name$, $value_type_name$> $name$_ = new pbc::MapField<$key_type_name$, $value_type_name$>();\n");
 					WritePropertyDocComment(printer, descriptor_);
 					AddPublicMemberAttributes(printer);
 					printer->Print(

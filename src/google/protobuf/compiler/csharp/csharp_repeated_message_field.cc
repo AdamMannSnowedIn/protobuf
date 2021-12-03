@@ -74,8 +74,8 @@ namespace google {
 							new MessageFieldGenerator(descriptor_, presenceIndex_, this->options()));
 						single_generator->GenerateCodecCode(printer);
 					}
-					printer->Print(";\n");
-					AddUnitySerializedFieldAttr(printer);
+					printer->Print(";\n"
+						"[UnityEngine.SerializeField]\n");
 					printer->Print(
 						variables_,
 						"private readonly pbc::RepeatedField<$type_name$> $name$_ = new pbc::RepeatedField<$type_name$>();\n");

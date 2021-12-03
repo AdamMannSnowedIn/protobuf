@@ -67,8 +67,8 @@ namespace google {
 						variables_,
 						"private static readonly pb::FieldCodec<$type_name$> _single_$name$_codec = ");
 					GenerateCodecCode(printer);
-					printer->Print(";\n");
-					AddUnitySerializedFieldAttr(printer);
+					printer->Print(";\n"
+						"[UnityEngine.SerializeField]\n");
 					printer->Print(
 						variables_,
 						"private $type_name$ $name$_;\n");

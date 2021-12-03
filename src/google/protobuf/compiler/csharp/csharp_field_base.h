@@ -78,7 +78,6 @@ namespace google {
 					void AddNullCheck(io::Printer* printer);
 					void AddNullCheck(io::Printer* printer, const std::string& name);
 
-					void AddUnitySerializedFieldAttr(io::Printer* printer);
 					void AddPublicMemberAttributes(io::Printer* printer);
 					void SetCommonOneofFieldVariables(std::map<string, string>* variables);
 
