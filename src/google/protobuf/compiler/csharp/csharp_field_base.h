@@ -40,69 +40,69 @@
 #include <google/protobuf/io/printer.h>
 
 namespace google {
-namespace protobuf {
-namespace compiler {
-namespace csharp {
+	namespace protobuf {
+		namespace compiler {
+			namespace csharp {
 
-class FieldGeneratorBase : public SourceGeneratorBase {
- public:
-  FieldGeneratorBase(const FieldDescriptor* descriptor,
-                     int presenceIndex,
-                     const Options* options);
-  ~FieldGeneratorBase();
+				class FieldGeneratorBase : public SourceGeneratorBase {
+				public:
+					FieldGeneratorBase(const FieldDescriptor* descriptor,
+						int presenceIndex,
+						const Options* options);
+					~FieldGeneratorBase();
 
-  FieldGeneratorBase(const FieldGeneratorBase&) = delete;
-  FieldGeneratorBase& operator=(const FieldGeneratorBase&) = delete;
+					FieldGeneratorBase(const FieldGeneratorBase&) = delete;
+					FieldGeneratorBase& operator=(const FieldGeneratorBase&) = delete;
 
-  virtual void GenerateCloningCode(io::Printer* printer) = 0;
-  virtual void GenerateFreezingCode(io::Printer* printer);
-  virtual void GenerateCodecCode(io::Printer* printer);
-  virtual void GenerateExtensionCode(io::Printer* printer);
-  virtual void GenerateMembers(io::Printer* printer) = 0;
-  virtual void GenerateMergingCode(io::Printer* printer) = 0;
-  virtual void GenerateParsingCode(io::Printer* printer) = 0;
-  virtual void GenerateSerializationCode(io::Printer* printer) = 0;
-  virtual void GenerateSerializedSizeCode(io::Printer* printer) = 0;
+					virtual void GenerateCloningCode(io::Printer* printer) = 0;
+					virtual void GenerateFreezingCode(io::Printer* printer);
+					virtual void GenerateCodecCode(io::Printer* printer);
+					virtual void GenerateExtensionCode(io::Printer* printer);
+					virtual void GenerateMembers(io::Printer* printer) = 0;
+					virtual void GenerateMergingCode(io::Printer* printer) = 0;
+					virtual void GenerateParsingCode(io::Printer* printer) = 0;
+					virtual void GenerateSerializationCode(io::Printer* printer) = 0;
+					virtual void GenerateSerializedSizeCode(io::Printer* printer) = 0;
 
-  virtual void WriteHash(io::Printer* printer) = 0;
-  virtual void WriteEquals(io::Printer* printer) = 0;
-  // Currently unused, as we use reflection to generate JSON
-  virtual void WriteToString(io::Printer* printer) = 0;
+					virtual void WriteHash(io::Printer* printer) = 0;
+					virtual void WriteEquals(io::Printer* printer) = 0;
+					// Currently unused, as we use reflection to generate JSON
+					virtual void WriteToString(io::Printer* printer) = 0;
 
- protected:
-  const FieldDescriptor* descriptor_;
-  const int presenceIndex_;
-  std::map<string, string> variables_;
+				protected:
+					const FieldDescriptor* descriptor_;
+					const int presenceIndex_;
+					std::map<string, string> variables_;
 
-  void AddDeprecatedFlag(io::Printer* printer);
-  void AddNullCheck(io::Printer* printer);
-  void AddNullCheck(io::Printer* printer, const std::string& name);
+					void AddDeprecatedFlag(io::Printer* printer);
+					void AddNullCheck(io::Printer* printer);
+					void AddNullCheck(io::Printer* printer, const std::string& name);
 
-  void AddUnitySerializedFieldAttr(io::Printer* printer);
-  void AddPublicMemberAttributes(io::Printer* printer);
-  void SetCommonOneofFieldVariables(std::map<string, string>* variables);
+					void AddUnitySerializedFieldAttr(io::Printer* printer);
+					void AddPublicMemberAttributes(io::Printer* printer);
+					void SetCommonOneofFieldVariables(std::map<string, string>* variables);
 
-  std::string oneof_property_name();
-  std::string oneof_name();
-  std::string property_name();
-  std::string name();
-  std::string type_name();
-  std::string type_name(const FieldDescriptor* descriptor);
-  bool has_default_value();
-  std::string default_value();
-  std::string default_value(const FieldDescriptor* descriptor);
-  std::string number();
-  std::string capitalized_type_name();
+					std::string oneof_property_name();
+					std::string oneof_name();
+					std::string property_name();
+					std::string name();
+					std::string type_name();
+					std::string type_name(const FieldDescriptor* descriptor);
+					bool has_default_value();
+					std::string default_value();
+					std::string default_value(const FieldDescriptor* descriptor);
+					std::string number();
+					std::string capitalized_type_name();
 
- private:
-  void SetCommonFieldVariables(std::map<string, string>* variables);
-  std::string GetStringDefaultValueInternal(const FieldDescriptor* descriptor);
-  std::string GetBytesDefaultValueInternal(const FieldDescriptor* descriptor);
-};
+				private:
+					void SetCommonFieldVariables(std::map<string, string>* variables);
+					std::string GetStringDefaultValueInternal(const FieldDescriptor* descriptor);
+					std::string GetBytesDefaultValueInternal(const FieldDescriptor* descriptor);
+				};
 
-}  // namespace csharp
-}  // namespace compiler
-}  // namespace protobuf
+			}  // namespace csharp
+		}  // namespace compiler
+	}  // namespace protobuf
 }  // namespace google
 
 #endif  // GOOGLE_PROTOBUF_COMPILER_CSHARP_FIELD_BASE_H__

@@ -37,60 +37,60 @@
 #include <google/protobuf/compiler/csharp/csharp_field_base.h>
 
 namespace google {
-namespace protobuf {
-namespace compiler {
-namespace csharp {
+	namespace protobuf {
+		namespace compiler {
+			namespace csharp {
 
-struct Options;
+				struct Options;
 
-class PrimitiveFieldGenerator : public FieldGeneratorBase {
- public:
-  PrimitiveFieldGenerator(const FieldDescriptor* descriptor,
-                          int presenceIndex,
-                          const Options *options);
-  ~PrimitiveFieldGenerator();
+				class PrimitiveFieldGenerator : public FieldGeneratorBase {
+				public:
+					PrimitiveFieldGenerator(const FieldDescriptor* descriptor,
+						int presenceIndex,
+						const Options* options);
+					~PrimitiveFieldGenerator();
 
-  PrimitiveFieldGenerator(const PrimitiveFieldGenerator&) = delete;
-  PrimitiveFieldGenerator& operator=(const PrimitiveFieldGenerator&) = delete;
+					PrimitiveFieldGenerator(const PrimitiveFieldGenerator&) = delete;
+					PrimitiveFieldGenerator& operator=(const PrimitiveFieldGenerator&) = delete;
 
-  virtual void GenerateCodecCode(io::Printer* printer);
-  virtual void GenerateCloningCode(io::Printer* printer);
-  virtual void GenerateMembers(io::Printer* printer);
-  virtual void GenerateMergingCode(io::Printer* printer);
-  virtual void GenerateParsingCode(io::Printer* printer);
-  virtual void GenerateSerializationCode(io::Printer* printer);
-  virtual void GenerateSerializedSizeCode(io::Printer* printer);
-  virtual void GenerateExtensionCode(io::Printer* printer);
+					virtual void GenerateCodecCode(io::Printer* printer);
+					virtual void GenerateCloningCode(io::Printer* printer);
+					virtual void GenerateMembers(io::Printer* printer);
+					virtual void GenerateMergingCode(io::Printer* printer);
+					virtual void GenerateParsingCode(io::Printer* printer);
+					virtual void GenerateSerializationCode(io::Printer* printer);
+					virtual void GenerateSerializedSizeCode(io::Printer* printer);
+					virtual void GenerateExtensionCode(io::Printer* printer);
 
-  virtual void WriteHash(io::Printer* printer);
-  virtual void WriteEquals(io::Printer* printer);
-  virtual void WriteToString(io::Printer* printer);
+					virtual void WriteHash(io::Printer* printer);
+					virtual void WriteEquals(io::Printer* printer);
+					virtual void WriteToString(io::Printer* printer);
 
- protected:
-  bool is_value_type;
-};
+				protected:
+					bool is_value_type;
+				};
 
-class PrimitiveOneofFieldGenerator : public PrimitiveFieldGenerator {
- public:
-  PrimitiveOneofFieldGenerator(const FieldDescriptor* descriptor,
-                               int presenceIndex,
-                               const Options *options);
-  ~PrimitiveOneofFieldGenerator();
+				class PrimitiveOneofFieldGenerator : public PrimitiveFieldGenerator {
+				public:
+					PrimitiveOneofFieldGenerator(const FieldDescriptor* descriptor,
+						int presenceIndex,
+						const Options* options);
+					~PrimitiveOneofFieldGenerator();
 
-  PrimitiveOneofFieldGenerator(const PrimitiveOneofFieldGenerator&) = delete;
-  PrimitiveOneofFieldGenerator& operator=(const PrimitiveOneofFieldGenerator&) =
-      delete;
+					PrimitiveOneofFieldGenerator(const PrimitiveOneofFieldGenerator&) = delete;
+					PrimitiveOneofFieldGenerator& operator=(const PrimitiveOneofFieldGenerator&) =
+						delete;
 
-  virtual void GenerateCloningCode(io::Printer* printer);
-  virtual void GenerateMembers(io::Printer* printer);
-  virtual void GenerateMergingCode(io::Printer* printer);
-  virtual void WriteToString(io::Printer* printer);
-  virtual void GenerateParsingCode(io::Printer* printer);
-};
+					virtual void GenerateCloningCode(io::Printer* printer);
+					virtual void GenerateMembers(io::Printer* printer);
+					virtual void GenerateMergingCode(io::Printer* printer);
+					virtual void WriteToString(io::Printer* printer);
+					virtual void GenerateParsingCode(io::Printer* printer);
+				};
 
-}  // namespace csharp
-}  // namespace compiler
-}  // namespace protobuf
+			}  // namespace csharp
+		}  // namespace compiler
+	}  // namespace protobuf
 }  // namespace google
 
 #endif  // GOOGLE_PROTOBUF_COMPILER_CSHARP_PRIMITIVE_FIELD_H__

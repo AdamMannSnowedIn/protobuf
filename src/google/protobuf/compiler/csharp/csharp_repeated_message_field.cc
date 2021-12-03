@@ -43,121 +43,123 @@
 #include <google/protobuf/compiler/csharp/csharp_wrapper_field.h>
 
 namespace google {
-namespace protobuf {
-namespace compiler {
-namespace csharp {
+	namespace protobuf {
+		namespace compiler {
+			namespace csharp {
 
-RepeatedMessageFieldGenerator::RepeatedMessageFieldGenerator(
-    const FieldDescriptor* descriptor, int presenceIndex, const Options *options)
-    : FieldGeneratorBase(descriptor, presenceIndex, options) {
-}
+				RepeatedMessageFieldGenerator::RepeatedMessageFieldGenerator(
+					const FieldDescriptor* descriptor, int presenceIndex, const Options* options)
+					: FieldGeneratorBase(descriptor, presenceIndex, options) {
+				}
 
-RepeatedMessageFieldGenerator::~RepeatedMessageFieldGenerator() {
+				RepeatedMessageFieldGenerator::~RepeatedMessageFieldGenerator() {
 
-}
+				}
 
-void RepeatedMessageFieldGenerator::GenerateMembers(io::Printer* printer) {
-  printer->Print(
-    variables_,
-    "private static readonly pb::FieldCodec<$type_name$> _repeated_$name$_codec\n"
-    "    = ");
-  // Don't want to duplicate the codec code here... maybe we should have a
-  // "create single field generator for this repeated field"
-  // function, but it doesn't seem worth it for just this.
-  if (IsWrapperType(descriptor_)) {
-    std::unique_ptr<FieldGeneratorBase> single_generator(
-      new WrapperFieldGenerator(descriptor_, presenceIndex_, this->options()));
-    single_generator->GenerateCodecCode(printer);
-  } else {
-    std::unique_ptr<FieldGeneratorBase> single_generator(
-      new MessageFieldGenerator(descriptor_, presenceIndex_, this->options()));
-    single_generator->GenerateCodecCode(printer);
-  }
-  printer->Print(";\n");
-  AddUnitySerializedFieldAttr(printer);
-  printer->Print(
-    variables_,
-    "private readonly pbc::RepeatedField<$type_name$> $name$_ = new pbc::RepeatedField<$type_name$>();\n");
-  WritePropertyDocComment(printer, descriptor_);
-  AddPublicMemberAttributes(printer);
-  printer->Print(
-    variables_,
-    "$access_level$ pbc::RepeatedField<$type_name$> $property_name$ {\n"
-    "  get { return $name$_; }\n"
-    "}\n");
-}
+				void RepeatedMessageFieldGenerator::GenerateMembers(io::Printer* printer) {
+					printer->Print(
+						variables_,
+						"private static readonly pb::FieldCodec<$type_name$> _repeated_$name$_codec\n"
+						"    = ");
+					// Don't want to duplicate the codec code here... maybe we should have a
+					// "create single field generator for this repeated field"
+					// function, but it doesn't seem worth it for just this.
+					if (IsWrapperType(descriptor_)) {
+						std::unique_ptr<FieldGeneratorBase> single_generator(
+							new WrapperFieldGenerator(descriptor_, presenceIndex_, this->options()));
+						single_generator->GenerateCodecCode(printer);
+					}
+					else {
+						std::unique_ptr<FieldGeneratorBase> single_generator(
+							new MessageFieldGenerator(descriptor_, presenceIndex_, this->options()));
+						single_generator->GenerateCodecCode(printer);
+					}
+					printer->Print(";\n");
+					AddUnitySerializedFieldAttr(printer);
+					printer->Print(
+						variables_,
+						"private readonly pbc::RepeatedField<$type_name$> $name$_ = new pbc::RepeatedField<$type_name$>();\n");
+					WritePropertyDocComment(printer, descriptor_);
+					AddPublicMemberAttributes(printer);
+					printer->Print(
+						variables_,
+						"$access_level$ pbc::RepeatedField<$type_name$> $property_name$ {\n"
+						"  get { return $name$_; }\n"
+						"}\n");
+				}
 
-void RepeatedMessageFieldGenerator::GenerateMergingCode(io::Printer* printer) {
-  printer->Print(
-    variables_,
-    "$name$_.Add(other.$name$_);\n");
-}
+				void RepeatedMessageFieldGenerator::GenerateMergingCode(io::Printer* printer) {
+					printer->Print(
+						variables_,
+						"$name$_.Add(other.$name$_);\n");
+				}
 
-void RepeatedMessageFieldGenerator::GenerateParsingCode(io::Printer* printer) {
-  printer->Print(
-    variables_,
-    "$name$_.AddEntriesFrom(input, _repeated_$name$_codec);\n");
-}
+				void RepeatedMessageFieldGenerator::GenerateParsingCode(io::Printer* printer) {
+					printer->Print(
+						variables_,
+						"$name$_.AddEntriesFrom(input, _repeated_$name$_codec);\n");
+				}
 
-void RepeatedMessageFieldGenerator::GenerateSerializationCode(io::Printer* printer) {
-  printer->Print(
-    variables_,
-    "$name$_.WriteTo(output, _repeated_$name$_codec);\n");
-}
+				void RepeatedMessageFieldGenerator::GenerateSerializationCode(io::Printer* printer) {
+					printer->Print(
+						variables_,
+						"$name$_.WriteTo(output, _repeated_$name$_codec);\n");
+				}
 
-void RepeatedMessageFieldGenerator::GenerateSerializedSizeCode(io::Printer* printer) {
-  printer->Print(
-    variables_,
-    "size += $name$_.CalculateSize(_repeated_$name$_codec);\n");
-}
+				void RepeatedMessageFieldGenerator::GenerateSerializedSizeCode(io::Printer* printer) {
+					printer->Print(
+						variables_,
+						"size += $name$_.CalculateSize(_repeated_$name$_codec);\n");
+				}
 
-void RepeatedMessageFieldGenerator::WriteHash(io::Printer* printer) {
-  printer->Print(
-    variables_,
-    "hash ^= $name$_.GetHashCode();\n");
-}
+				void RepeatedMessageFieldGenerator::WriteHash(io::Printer* printer) {
+					printer->Print(
+						variables_,
+						"hash ^= $name$_.GetHashCode();\n");
+				}
 
-void RepeatedMessageFieldGenerator::WriteEquals(io::Printer* printer) {
-  printer->Print(
-    variables_,
-    "if(!$name$_.Equals(other.$name$_)) return false;\n");
-}
+				void RepeatedMessageFieldGenerator::WriteEquals(io::Printer* printer) {
+					printer->Print(
+						variables_,
+						"if(!$name$_.Equals(other.$name$_)) return false;\n");
+				}
 
-void RepeatedMessageFieldGenerator::WriteToString(io::Printer* printer) {
-  variables_["field_name"] = GetFieldName(descriptor_);
-  printer->Print(
-    variables_,
-    "PrintField(\"$field_name$\", $name$_, writer);\n");
-}
+				void RepeatedMessageFieldGenerator::WriteToString(io::Printer* printer) {
+					variables_["field_name"] = GetFieldName(descriptor_);
+					printer->Print(
+						variables_,
+						"PrintField(\"$field_name$\", $name$_, writer);\n");
+				}
 
-void RepeatedMessageFieldGenerator::GenerateCloningCode(io::Printer* printer) {
-  printer->Print(variables_,
-    "$name$_ = other.$name$_.Clone();\n");
-}
+				void RepeatedMessageFieldGenerator::GenerateCloningCode(io::Printer* printer) {
+					printer->Print(variables_,
+						"$name$_ = other.$name$_.Clone();\n");
+				}
 
-void RepeatedMessageFieldGenerator::GenerateFreezingCode(io::Printer* printer) {
-}
+				void RepeatedMessageFieldGenerator::GenerateFreezingCode(io::Printer* printer) {
+				}
 
-void RepeatedMessageFieldGenerator::GenerateExtensionCode(io::Printer* printer) {
-  WritePropertyDocComment(printer, descriptor_);
-  AddDeprecatedFlag(printer);
-  printer->Print(
-    variables_,
-    "$access_level$ static readonly pb::RepeatedExtension<$extended_type$, $type_name$> $property_name$ =\n"
-    "  new pb::RepeatedExtension<$extended_type$, $type_name$>($number$, ");
-  if (IsWrapperType(descriptor_)) {
-    std::unique_ptr<FieldGeneratorBase> single_generator(
-      new WrapperFieldGenerator(descriptor_, -1, this->options()));
-    single_generator->GenerateCodecCode(printer);
-  } else {
-    std::unique_ptr<FieldGeneratorBase> single_generator(
-      new MessageFieldGenerator(descriptor_, -1, this->options()));
-    single_generator->GenerateCodecCode(printer);
-  }
-  printer->Print(");\n");
-}
+				void RepeatedMessageFieldGenerator::GenerateExtensionCode(io::Printer* printer) {
+					WritePropertyDocComment(printer, descriptor_);
+					AddDeprecatedFlag(printer);
+					printer->Print(
+						variables_,
+						"$access_level$ static readonly pb::RepeatedExtension<$extended_type$, $type_name$> $property_name$ =\n"
+						"  new pb::RepeatedExtension<$extended_type$, $type_name$>($number$, ");
+					if (IsWrapperType(descriptor_)) {
+						std::unique_ptr<FieldGeneratorBase> single_generator(
+							new WrapperFieldGenerator(descriptor_, -1, this->options()));
+						single_generator->GenerateCodecCode(printer);
+					}
+					else {
+						std::unique_ptr<FieldGeneratorBase> single_generator(
+							new MessageFieldGenerator(descriptor_, -1, this->options()));
+						single_generator->GenerateCodecCode(printer);
+					}
+					printer->Print(");\n");
+				}
 
-}  // namespace csharp
-}  // namespace compiler
-}  // namespace protobuf
+			}  // namespace csharp
+		}  // namespace compiler
+	}  // namespace protobuf
 }  // namespace google
