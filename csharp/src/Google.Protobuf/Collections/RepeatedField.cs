@@ -46,6 +46,7 @@ namespace Google.Protobuf.Collections
     /// supported by Protocol Buffers but nor does it guarantee that all operations will work in such cases.
     /// </remarks>
     /// <typeparam name="T">The element type of the repeated field.</typeparam>
+    [Serializable]
     public sealed class RepeatedField<T> : IList<T>, IList, IDeepCloneable<RepeatedField<T>>, IEquatable<RepeatedField<T>>
 #if !NET35
         , IReadOnlyList<T>
@@ -54,8 +55,13 @@ namespace Google.Protobuf.Collections
         private static readonly EqualityComparer<T> EqualityComparer = ProtobufEqualityComparers.GetEqualityComparer<T>();
         private static readonly T[] EmptyArray = new T[0];
         private const int MinArraySize = 8;
-
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
         private T[] array = EmptyArray;
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
         private int count = 0;
 
         /// <summary>
@@ -85,6 +91,27 @@ namespace Google.Protobuf.Collections
                 }
             }
             clone.count = count;
+            return clone;
+        }
+
+        public static List<T> Clone(List<T> list)
+        {
+            List<T> clone;
+            if (list.Count > 0)
+            {
+                List<IDeepCloneable<T>> cloneableList = list as List<IDeepCloneable<T>>;
+                if (cloneableArray == null)
+                {
+                    clone = new List<T>(list);
+                } else
+                {
+                    clone = new List<T>();
+                    foreach(IDeepCloneable<T> clonable in cloneableList)
+                    {
+                        clone.Add(clonable.Clone());
+                    }
+                }
+            }
             return clone;
         }
 
@@ -124,6 +151,37 @@ namespace Google.Protobuf.Collections
             }
         }
 
+        public static void AddEntriesFrom(List<T> list, CodedInputStream input, FieldCodec<T> codec)
+        {
+            // TODO: Inline some of the Add code, so we can avoid checking the size on every
+            // iteration.
+            uint tag = input.LastTag;
+            var reader = codec.ValueReader;
+            // Non-nullable value types can be packed or not.
+            if (FieldCodec<T>.IsPackedRepeatedField(tag))
+            {
+                int length = input.ReadLength();
+                if (length > 0)
+                {
+                    int oldLimit = input.PushLimit(length);
+                    while (!input.ReachedLimit)
+                    {
+                        RepeatedField.Add(list, reader(input));
+                    }
+                    input.PopLimit(oldLimit);
+                }
+                // Empty packed field. Odd, but valid - just ignore.
+            }
+            else
+            {
+                // Not packed... (possibly not packable)
+                do
+                {
+                    RepeatedField.Add(list, reader(input));
+                } while (input.MaybeConsumeTag(tag));
+            }
+        }
+
         /// <summary>
         /// Calculates the size of this collection based on the given codec.
         /// </summary>
@@ -151,6 +209,32 @@ namespace Google.Protobuf.Collections
                 for (int i = 0; i < count; i++)
                 {
                     size += sizeCalculator(array[i]);
+                }
+                return size;
+            }
+        }
+
+        public static int CalculateSize(List<T> list, FieldCodec<T> codec)
+        {
+            if (list.Count == 0)
+            {
+                return 0;
+            }
+            uint tag = codec.Tag;
+            if (codec.PackedRepeatedField)
+            {
+                int dataSize = CalculatePackedDataSize(codec);
+                return CodedOutputStream.ComputeRawVarint32Size(tag) +
+                    CodedOutputStream.ComputeLengthSize(dataSize) +
+                    dataSize;
+            }
+            else
+            {
+                var sizeCalculator = codec.ValueSizeCalculator;
+                int size = list.Count * CodedOutputStream.ComputeRawVarint32Size(tag);
+                for (int i = 0; i < list.Count; i++)
+                {
+                    size += sizeCalculator(list[i]);
                 }
                 return size;
             }
@@ -216,6 +300,41 @@ namespace Google.Protobuf.Collections
             }
         }
 
+        public static void WriteTo(List<T> list, CodedOutputStream output, FieldCodec<T> codec)
+        {
+            if (list.Count == 0)
+            {
+                return;
+            }
+            var writer = codec.ValueWriter;
+            var tag = codec.Tag;
+            if (codec.PackedRepeatedField)
+            {
+                // Packed primitive type
+                uint size = (uint)CalculatePackedDataSize(codec);
+                output.WriteTag(tag);
+                output.WriteRawVarint32(size);
+                for (int i = 0; i < list.Count; i++)
+                {
+                    writer(output, list[i]);
+                }
+            }
+            else
+            {
+                // Not packed: a simple tag/value pair for each value.
+                // Can't use codec.WriteTagAndValue, as that omits default values.
+                for (int i = 0; i < list.Count; i++)
+                {
+                    output.WriteTag(tag);
+                    writer(output, list[i]);
+                    if (codec.EndTag != 0)
+                    {
+                        output.WriteTag(codec.EndTag);
+                    }
+                }
+            }
+        }
+
         private void EnsureSize(int size)
         {
             if (array.Length < size)
@@ -237,6 +356,12 @@ namespace Google.Protobuf.Collections
             ProtoPreconditions.CheckNotNullUnconstrained(item, nameof(item));
             EnsureSize(count + 1);
             array[count++] = item;
+        }
+
+        public static void Add(List<T> list, T item)
+        {
+            ProtoPreconditions.CheckNotNullUnconstrained(item, nameof(item));
+            list.Add(item);
         }
 
         /// <summary>
