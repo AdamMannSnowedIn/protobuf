@@ -62,7 +62,7 @@ namespace google {
 						"    = pb::FieldCodec.ForEnum($tag$, x => (int) x, x => ($type_name$) x);\n"
 						"[UnityEngine.SerializeField]\n");
 					printer->Print(variables_,
-						"private readonly scg::List<$type_name$> $name$_ = new scg::List<$type_name$>();\n");
+						"private scg::List<$type_name$> $name$_ = new scg::List<$type_name$>();\n");
 					WritePropertyDocComment(printer, descriptor_);
 					AddPublicMemberAttributes(printer);
 					printer->Print(
