@@ -62,12 +62,12 @@ namespace google {
 						"    = pb::FieldCodec.For$capitalized_type_name$($tag$);\n"
 						"[UnityEngine.SerializeField]\n");
 					printer->Print(variables_,
-						"private readonly pbc::RepeatedField<$type_name$> $name$_ = new pbc::RepeatedField<$type_name$>();\n");
+						"private readonly scg::List<$type_name$> $name$_ = new scg::List<$type_name$>();\n");
 					WritePropertyDocComment(printer, descriptor_);
 					AddPublicMemberAttributes(printer);
 					printer->Print(
 						variables_,
-						"$access_level$ pbc::RepeatedField<$type_name$> $property_name$ {\n"
+						"$access_level$ scg::List<$type_name$> $property_name$ {\n"
 						"  get { return $name$_; }\n"
 						"}\n");
 				}
@@ -75,25 +75,25 @@ namespace google {
 				void RepeatedPrimitiveFieldGenerator::GenerateMergingCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"$name$_.Add(other.$name$_);\n");
+						"pbc::RepeatedField.Add($name$_, other.$name$_);\n");
 				}
 
 				void RepeatedPrimitiveFieldGenerator::GenerateParsingCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"$name$_.AddEntriesFrom(input, _repeated_$name$_codec);\n");
+						"pbc::RepeatedField.AddEntriesFrom($name$_, input, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedPrimitiveFieldGenerator::GenerateSerializationCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"$name$_.WriteTo(output, _repeated_$name$_codec);\n");
+						"pbc::RepeatedField.WriteTo($name$_, output, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedPrimitiveFieldGenerator::GenerateSerializedSizeCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"size += $name$_.CalculateSize(_repeated_$name$_codec);\n");
+						"size += pbc::RepeatedField.CalculateSize($name$_, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedPrimitiveFieldGenerator::WriteHash(io::Printer* printer) {
@@ -113,7 +113,7 @@ namespace google {
 
 				void RepeatedPrimitiveFieldGenerator::GenerateCloningCode(io::Printer* printer) {
 					printer->Print(variables_,
-						"$name$_ = other.$name$_.Clone();\n");
+						"$name$_ = pbc::RepeatedField.Clone(other.$name$_);\n");
 				}
 
 				void RepeatedPrimitiveFieldGenerator::GenerateFreezingCode(io::Printer* printer) {

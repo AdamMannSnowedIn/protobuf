@@ -46,9 +46,6 @@ namespace Google.Protobuf.Collections
     /// supported by Protocol Buffers but nor does it guarantee that all operations will work in such cases.
     /// </remarks>
     /// <typeparam name="T">The element type of the repeated field.</typeparam>
-#if UNITY_EDITOR
-    [global::System.SerializableAttribute]
-#endif
     public sealed class RepeatedField<T> : IList<T>, IList, IDeepCloneable<RepeatedField<T>>, IEquatable<RepeatedField<T>>
 #if !NET35
         , IReadOnlyList<T>
@@ -57,13 +54,7 @@ namespace Google.Protobuf.Collections
         private static readonly EqualityComparer<T> EqualityComparer = ProtobufEqualityComparers.GetEqualityComparer<T>();
         private static readonly T[] EmptyArray = new T[0];
         private const int MinArraySize = 8;
-#if UNITY_EDITOR
-        [UnityEngine.SerializeField]
-#endif
         private T[] array = EmptyArray;
-#if UNITY_EDITOR
-        [UnityEngine.SerializeField]
-#endif
         private int count = 0;
 
         /// <summary>
@@ -105,9 +96,10 @@ namespace Google.Protobuf.Collections
                 if (cloneableList == null)
                 {
                     clone = new List<T>(list);
-                } else
+                }
+                else
                 {
-                    foreach(IDeepCloneable<T> clonable in cloneableList)
+                    foreach (IDeepCloneable<T> clonable in cloneableList)
                     {
                         clone.Add(clonable.Clone());
                     }
@@ -424,7 +416,7 @@ namespace Google.Protobuf.Collections
             if (index == -1)
             {
                 return false;
-            }            
+            }
             Array.Copy(array, index + 1, array, index, count - index - 1);
             count--;
             array[count] = default(T);
@@ -688,7 +680,7 @@ namespace Google.Protobuf.Collections
             }
         }
 
-#region Explicit interface implementation for IList and ICollection.
+        #region Explicit interface implementation for IList and ICollection.
         bool IList.IsFixedSize => false;
 
         void ICollection.CopyTo(Array array, int index)
@@ -708,7 +700,7 @@ namespace Google.Protobuf.Collections
 
         int IList.Add(object value)
         {
-            Add((T) value);
+            Add((T)value);
             return count - 1;
         }
 
@@ -728,7 +720,7 @@ namespace Google.Protobuf.Collections
 
         void IList.Insert(int index, object value)
         {
-            Insert(index, (T) value);
+            Insert(index, (T)value);
         }
 
         void IList.Remove(object value)
@@ -739,6 +731,6 @@ namespace Google.Protobuf.Collections
             }
             Remove((T)value);
         }
-#endregion
+        #endregion
     }
 }
