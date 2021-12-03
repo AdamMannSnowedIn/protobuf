@@ -75,6 +75,9 @@ namespace google {
 				void RepeatedPrimitiveFieldGenerator::GenerateMergingCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
+						"//$name$_.Add(other.$name$_);\n");
+					printer->Print(
+						variables_,
 						"pbc::RepeatedField<$type_name$>.Add($name$_, other.$name$_);\n");
 				}
 
