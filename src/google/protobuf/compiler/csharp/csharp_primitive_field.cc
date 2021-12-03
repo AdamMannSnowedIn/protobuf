@@ -67,12 +67,12 @@ void PrimitiveFieldGenerator::GenerateMembers(io::Printer* printer) {
   // null, or whether we just handle it, in the cases of bytes and string.
   // (Basically, should null-handling code be in the getter or the setter?)
   if (IsProto2(descriptor_->file())) {
-      AddUnitySerializedFieldAttr(printer);
     printer->Print(
       variables_,
       "private readonly static $type_name$ $property_name$DefaultValue = $default_value$;\n\n");
   }
 
+  AddUnitySerializedFieldAttr(printer);
   printer->Print(
     variables_,
     "private $type_name$ $name_def_message$;\n");
