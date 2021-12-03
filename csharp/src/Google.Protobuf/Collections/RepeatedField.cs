@@ -96,10 +96,9 @@ namespace Google.Protobuf.Collections
                 if (cloneableList == null)
                 {
                     clone = new List<T>(list);
-                }
-                else
+                } else
                 {
-                    foreach (IDeepCloneable<T> clonable in cloneableList)
+                    foreach(IDeepCloneable<T> clonable in cloneableList)
                     {
                         clone.Add(clonable.Clone());
                     }
@@ -416,7 +415,7 @@ namespace Google.Protobuf.Collections
             if (index == -1)
             {
                 return false;
-            }
+            }            
             Array.Copy(array, index + 1, array, index, count - index - 1);
             count--;
             array[count] = default(T);
@@ -680,7 +679,7 @@ namespace Google.Protobuf.Collections
             }
         }
 
-        #region Explicit interface implementation for IList and ICollection.
+#region Explicit interface implementation for IList and ICollection.
         bool IList.IsFixedSize => false;
 
         void ICollection.CopyTo(Array array, int index)
@@ -700,7 +699,7 @@ namespace Google.Protobuf.Collections
 
         int IList.Add(object value)
         {
-            Add((T)value);
+            Add((T) value);
             return count - 1;
         }
 
@@ -720,7 +719,7 @@ namespace Google.Protobuf.Collections
 
         void IList.Insert(int index, object value)
         {
-            Insert(index, (T)value);
+            Insert(index, (T) value);
         }
 
         void IList.Remove(object value)
@@ -731,6 +730,6 @@ namespace Google.Protobuf.Collections
             }
             Remove((T)value);
         }
-        #endregion
+#endregion
     }
 }
