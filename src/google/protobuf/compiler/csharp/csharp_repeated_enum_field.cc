@@ -75,25 +75,25 @@ namespace google {
 				void RepeatedEnumFieldGenerator::GenerateMergingCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"pbc::RepeatedField.Add($name$_, other.$name$_);\n");
+						"pbc::RepeatedField<$type_name$>.Add($name$_, other.$name$_);\n");
 				}
 
 				void RepeatedEnumFieldGenerator::GenerateParsingCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"pbc::RepeatedField.AddEntriesFrom($name$_, input, _repeated_$name$_codec);\n");
+						"pbc::RepeatedField<$type_name$>.AddEntriesFrom($name$_, input, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedEnumFieldGenerator::GenerateSerializationCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"pbc::RepeatedField.WriteTo($name$_, output, _repeated_$name$_codec);\n");
+						"pbc::RepeatedField<$type_name$>.WriteTo($name$_, output, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedEnumFieldGenerator::GenerateSerializedSizeCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"size += pbc::RepeatedField.CalculateSize($name$_, _repeated_$name$_codec);\n");
+						"size += pbc::RepeatedField<$type_name$>.CalculateSize($name$_, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedEnumFieldGenerator::WriteHash(io::Printer* printer) {
@@ -115,7 +115,7 @@ namespace google {
 
 				void RepeatedEnumFieldGenerator::GenerateCloningCode(io::Printer* printer) {
 					printer->Print(variables_,
-						"$name$_ = pbc::RepeatedField.Clone(other.$name$_);\n");
+						"$name$_ = pbc::RepeatedField<$type_name$>.Clone(other.$name$_);\n");
 				}
 
 				void RepeatedEnumFieldGenerator::GenerateExtensionCode(io::Printer* printer) {
