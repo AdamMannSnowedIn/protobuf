@@ -54,8 +54,8 @@ namespace google {
 					const Options* options)
 					: FieldGeneratorBase(descriptor, presenceIndex, options) {
 					if (!IsProto2(descriptor_->file())) {
-						variables_["has_property_check"] = name() + "_ != null";
-						variables_["has_not_property_check"] = name() + "_ == null";
+						variables_["has_property_check"] = "_" + name() + " != null";
+						variables_["has_not_property_check"] = "_" + name() + " == null";
 					}
 				}
 
