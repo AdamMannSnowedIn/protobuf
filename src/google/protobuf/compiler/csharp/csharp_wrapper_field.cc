@@ -71,15 +71,15 @@ namespace google {
 						"[UnityEngine.SerializeField]\n");
 					printer->Print(
 						variables_,
-						"private $type_name$ $name$_;\n");
+						"private $type_name$ _$name$;\n");
 					WritePropertyDocComment(printer, descriptor_);
 					AddPublicMemberAttributes(printer);
 					printer->Print(
 						variables_,
 						"$access_level$ $type_name$ $property_name$ {\n"
-						"  get { return $name$_; }\n"
+						"  get { return _$name$; }\n"
 						"  set {\n"
-						"    $name$_ = value;\n"
+						"    _$name$ = value;\n"
 						"  }\n"
 						"}\n\n");
 					if (IsProto2(descriptor_->file())) {
@@ -90,7 +90,7 @@ namespace google {
 						printer->Print(
 							variables_,
 							"$access_level$ bool Has$property_name$ {\n"
-							"  get { return $name$_ != null; }\n"
+							"  get { return _$name$ != null; }\n"
 							"}\n\n");
 						printer->Print(
 							variables_,
@@ -99,7 +99,7 @@ namespace google {
 						printer->Print(
 							variables_,
 							"$access_level$ void Clear$property_name$() {\n"
-							"  $name$_ = null;\n"
+							"  _$name$ = null;\n"
 							"}\n");
 					}
 				}

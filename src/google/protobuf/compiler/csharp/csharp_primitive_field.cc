@@ -84,14 +84,14 @@ namespace google {
 							printer->Print(
 								variables_,
 								"$access_level$ $type_name$ $property_name$ {\n"
-								"  get { return $name$_ ?? $property_name$DefaultValue; }\n"
+								"  get { return _$name$ ?? $property_name$DefaultValue; }\n"
 								"  set {\n");
 						}
 						else {
 							printer->Print(
 								variables_,
 								"$access_level$ $type_name$ $property_name$ {\n"
-								"  get { if ($has_field_check$) { return $name$_; } else { return $property_name$DefaultValue; } }\n"
+								"  get { if ($has_field_check$) { return _$name$; } else { return $property_name$DefaultValue; } }\n"
 								"  set {\n");
 						}
 					}
@@ -99,7 +99,7 @@ namespace google {
 						printer->Print(
 							variables_,
 							"$access_level$ $type_name$ $property_name$ {\n"
-							"  get { return $name$_; }\n"
+							"  get { return _$name$; }\n"
 							"  set {\n");
 					}
 					if (presenceIndex_ != -1) {
@@ -110,12 +110,12 @@ namespace google {
 					if (is_value_type) {
 						printer->Print(
 							variables_,
-							"    $name$_ = value;\n");
+							"    _$name$ = value;\n");
 					}
 					else {
 						printer->Print(
 							variables_,
-							"    $name$_ = pb::ProtoPreconditions.CheckNotNull(value, \"value\");\n");
+							"    _$name$ = pb::ProtoPreconditions.CheckNotNull(value, \"value\");\n");
 					}
 					printer->Print(
 						"  }\n"
@@ -130,7 +130,7 @@ namespace google {
 						if (IsNullable(descriptor_)) {
 							printer->Print(
 								variables_,
-								"$name$_ != null; }\n}\n");
+								"_$name$ != null; }\n}\n");
 						}
 						else {
 							printer->Print(
@@ -145,7 +145,7 @@ namespace google {
 							variables_,
 							"$access_level$ void Clear$property_name$() {\n");
 						if (IsNullable(descriptor_)) {
-							printer->Print(variables_, "  $name$_ = null;\n");
+							printer->Print(variables_, "  _$name$ = null;\n");
 						}
 						else {
 							printer->Print(variables_, "  $clear_has_field$;\n");
@@ -228,7 +228,7 @@ namespace google {
 
 				void PrimitiveFieldGenerator::GenerateCloningCode(io::Printer* printer) {
 					printer->Print(variables_,
-						"$name$_ = other.$name$_;\n");
+						"_$name$ = other._$name$;\n");
 				}
 
 				void PrimitiveFieldGenerator::GenerateCodecCode(io::Printer* printer) {

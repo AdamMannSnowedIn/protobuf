@@ -78,38 +78,38 @@ namespace google {
 						variables_,
 						", $tag$);\n"
 						"[UnityEngine.SerializeField]\n"
-						"private readonly pbc::MapField<$key_type_name$, $value_type_name$> $name$_ = new pbc::MapField<$key_type_name$, $value_type_name$>();\n");
+						"private readonly pbc::MapField<$key_type_name$, $value_type_name$> _$name$ = new pbc::MapField<$key_type_name$, $value_type_name$>();\n");
 					WritePropertyDocComment(printer, descriptor_);
 					AddPublicMemberAttributes(printer);
 					printer->Print(
 						variables_,
 						"$access_level$ pbc::MapField<$key_type_name$, $value_type_name$> $property_name$ {\n"
-						"  get { return $name$_; }\n"
+						"  get { return _$name$; }\n"
 						"}\n");
 				}
 
 				void MapFieldGenerator::GenerateMergingCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"$name$_.Add(other.$name$_);\n");
+						"_$name$.Add(other._$name$);\n");
 				}
 
 				void MapFieldGenerator::GenerateParsingCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"$name$_.AddEntriesFrom(input, _map_$name$_codec);\n");
+						"_$name$.AddEntriesFrom(input, _map_$name$_codec);\n");
 				}
 
 				void MapFieldGenerator::GenerateSerializationCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"$name$_.WriteTo(output, _map_$name$_codec);\n");
+						"_$name$.WriteTo(output, _map_$name$_codec);\n");
 				}
 
 				void MapFieldGenerator::GenerateSerializedSizeCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"size += $name$_.CalculateSize(_map_$name$_codec);\n");
+						"size += _$name$.CalculateSize(_map_$name$_codec);\n");
 				}
 
 				void MapFieldGenerator::WriteHash(io::Printer* printer) {
@@ -129,7 +129,7 @@ namespace google {
 
 				void MapFieldGenerator::GenerateCloningCode(io::Printer* printer) {
 					printer->Print(variables_,
-						"$name$_ = other.$name$_.Clone();\n");
+						"_$name$ = other._$name$.Clone();\n");
 				}
 
 				void MapFieldGenerator::GenerateFreezingCode(io::Printer* printer) {
