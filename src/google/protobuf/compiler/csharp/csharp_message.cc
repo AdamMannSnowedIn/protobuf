@@ -223,7 +223,7 @@ namespace google {
 						vars["original_name"] = descriptor_->oneof_decl(i)->name();
 						printer->Print(
 							vars,
-							"private object $name$_;\n"
+							"private object _$name$;\n"
 							"/// <summary>Enum of possible cases for the \"$original_name$\" oneof.</summary>\n"
 							"public enum $property_name$OneofCase {\n");
 						printer->Indent();
@@ -252,7 +252,7 @@ namespace google {
 							vars,
 							"public void Clear$property_name$() {\n"
 							"  $name$Case_ = $property_name$OneofCase.None;\n"
-							"  $name$_ = null;\n"
+							"  _$name$ = null;\n"
 							"}\n\n");
 					}
 
