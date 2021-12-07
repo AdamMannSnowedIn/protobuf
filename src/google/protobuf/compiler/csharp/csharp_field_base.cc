@@ -101,7 +101,7 @@ namespace google {
 							(*variables)["name"] + "_ = " + (*variables)["default_value"];
 					}
 					else {
-						(*variables)["name_def_message"] = (*variables)["name"] + "_";
+						(*variables)["name_def_message"] = "_" + (*variables)["name"];
 					}
 					if (IsProto2(descriptor_->file())) {
 						(*variables)["has_property_check"] = "Has" + (*variables)["property_name"];
