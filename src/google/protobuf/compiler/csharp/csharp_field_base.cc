@@ -96,13 +96,13 @@ namespace google {
 					(*variables)["default_value"] = default_value();
 					(*variables)["capitalized_type_name"] = capitalized_type_name();
 					(*variables)["number"] = number();
-					if (has_default_value() && !IsProto2(descriptor_->file())) {
+					/*if (has_default_value() && !IsProto2(descriptor_->file())) {
 						(*variables)["name_def_message"] =
 							(*variables)["name"] + "_ = " + (*variables)["default_value"];
 					}
-					else {
-						(*variables)["name_def_message"] = "_" + (*variables)["name"];
-					}
+					else {*/
+					(*variables)["name_def_message"] = "_" + (*variables)["name"];
+					/*}*/
 					if (IsProto2(descriptor_->file())) {
 						(*variables)["has_property_check"] = "Has" + (*variables)["property_name"];
 						(*variables)["other_has_property_check"] = "other.Has" + (*variables)["property_name"];
