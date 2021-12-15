@@ -85,14 +85,14 @@ namespace google {
 								variables_,
 								"$access_level$ $type_name$ $property_name$ {\n"
 								"  get { return _$name$ ?? $property_name$DefaultValue; }\n"
-								"  set {\n");
+								"  internal set {\n");
 						}
 						else {
 							printer->Print(
 								variables_,
 								"$access_level$ $type_name$ $property_name$ {\n"
 								"  get { if ($has_field_check$) { return _$name$; } else { return $property_name$DefaultValue; } }\n"
-								"  set {\n");
+								"  internal set {\n");
 						}
 					}
 					else {
@@ -100,7 +100,7 @@ namespace google {
 							variables_,
 							"$access_level$ $type_name$ $property_name$ {\n"
 							"  get { return _$name$; }\n"
-							"  set {\n");
+							"  internal set {\n");
 					}
 					if (presenceIndex_ != -1) {
 						printer->Print(
@@ -264,7 +264,7 @@ namespace google {
 						variables_,
 						"$access_level$ $type_name$ $property_name$ {\n"
 						"  get { return $has_property_check$ ? ($type_name$) $oneof_name$_ : $default_value$; }\n"
-						"  set {\n");
+						"  internal set {\n");
 					if (is_value_type) {
 						printer->Print(
 							variables_,
