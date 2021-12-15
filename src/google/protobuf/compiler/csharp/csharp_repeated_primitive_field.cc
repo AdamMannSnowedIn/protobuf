@@ -62,58 +62,58 @@ namespace google {
 						"    = pb::FieldCodec.For$capitalized_type_name$($tag$);\n"
 						"[UnityEngine.SerializeField]\n");
 					printer->Print(variables_,
-						"private scg::List<$type_name$> $name$_ = new scg::List<$type_name$>();\n");
+						"private scg::List<$type_name$> _$name$ = new scg::List<$type_name$>();\n");
 					WritePropertyDocComment(printer, descriptor_);
 					AddPublicMemberAttributes(printer);
 					printer->Print(
 						variables_,
 						"$access_level$ scg::List<$type_name$> $property_name$ {\n"
-						"  get { return $name$_; }\n"
+						"  get { return _$name$; }\n"
 						"}\n");
 				}
 
 				void RepeatedPrimitiveFieldGenerator::GenerateMergingCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"$name$_.AddRange(other.$name$_);\n");
+						"_$name$.AddRange(other._$name$);\n");
 				}
 
 				void RepeatedPrimitiveFieldGenerator::GenerateParsingCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"pbc::RepeatedField<$type_name$>.AddEntriesFrom($name$_, input, _repeated_$name$_codec);\n");
+						"pbc::RepeatedField<$type_name$>.AddEntriesFrom(_$name$, input, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedPrimitiveFieldGenerator::GenerateSerializationCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"pbc::RepeatedField<$type_name$>.WriteTo($name$_, output, _repeated_$name$_codec);\n");
+						"pbc::RepeatedField<$type_name$>.WriteTo(_$name$, output, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedPrimitiveFieldGenerator::GenerateSerializedSizeCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"size += pbc::RepeatedField<$type_name$>.CalculateSize($name$_, _repeated_$name$_codec);\n");
+						"size += pbc::RepeatedField<$type_name$>.CalculateSize(_$name$, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedPrimitiveFieldGenerator::WriteHash(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"hash ^= $name$_.GetHashCode();\n");
+						"hash ^= _$name$.GetHashCode();\n");
 				}
 				void RepeatedPrimitiveFieldGenerator::WriteEquals(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"if(!$name$_.Equals(other.$name$_)) return false;\n");
+						"if(!_$name$.Equals(other._$name$)) return false;\n");
 				}
 				void RepeatedPrimitiveFieldGenerator::WriteToString(io::Printer* printer) {
 					printer->Print(variables_,
-						"PrintField(\"$descriptor_name$\", $name$_, writer);\n");
+						"PrintField(\"$descriptor_name$\", _$name$, writer);\n");
 				}
 
 				void RepeatedPrimitiveFieldGenerator::GenerateCloningCode(io::Printer* printer) {
 					printer->Print(variables_,
-						"$name$_ = pbc::RepeatedField<$type_name$>.Clone(other.$name$_);\n");
+						"_$name$ = pbc::RepeatedField<$type_name$>.Clone(other._$name$);\n");
 				}
 
 				void RepeatedPrimitiveFieldGenerator::GenerateFreezingCode(io::Printer* printer) {

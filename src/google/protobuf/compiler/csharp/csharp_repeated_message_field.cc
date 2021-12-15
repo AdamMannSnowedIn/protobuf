@@ -78,62 +78,62 @@ namespace google {
 						"[UnityEngine.SerializeField]\n");
 					printer->Print(
 						variables_,
-						"private scg::List<$type_name$> $name$_ = new scg::List<$type_name$>();\n");
+						"private scg::List<$type_name$> _$name$ = new scg::List<$type_name$>();\n");
 					WritePropertyDocComment(printer, descriptor_);
 					AddPublicMemberAttributes(printer);
 					printer->Print(
 						variables_,
 						"$access_level$ scg::List<$type_name$> $property_name$ {\n"
-						"  get { return $name$_; }\n"
+						"  get { return _$name$; }\n"
 						"}\n");
 				}
 
 				void RepeatedMessageFieldGenerator::GenerateMergingCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"$name$_.AddRange(other.$name$_);\n");
+						"_$name$.AddRange(other._$name$);\n");
 				}
 
 				void RepeatedMessageFieldGenerator::GenerateParsingCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"pbc::RepeatedField<$type_name$>.AddEntriesFrom($name$_, input, _repeated_$name$_codec);\n");
+						"pbc::RepeatedField<$type_name$>.AddEntriesFrom(_$name$, input, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedMessageFieldGenerator::GenerateSerializationCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"pbc::RepeatedField<$type_name$>.WriteTo($name$_, output, _repeated_$name$_codec);\n");
+						"pbc::RepeatedField<$type_name$>.WriteTo(_$name$, output, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedMessageFieldGenerator::GenerateSerializedSizeCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"size += pbc::RepeatedField<$type_name$>.CalculateSize($name$_, _repeated_$name$_codec);\n");
+						"size += pbc::RepeatedField<$type_name$>.CalculateSize(_$name$, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedMessageFieldGenerator::WriteHash(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"hash ^= $name$_.GetHashCode();\n");
+						"hash ^= _$name$.GetHashCode();\n");
 				}
 
 				void RepeatedMessageFieldGenerator::WriteEquals(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"if(!$name$_.Equals(other.$name$_)) return false;\n");
+						"if(!_$name$.Equals(other._$name$)) return false;\n");
 				}
 
 				void RepeatedMessageFieldGenerator::WriteToString(io::Printer* printer) {
 					variables_["field_name"] = GetFieldName(descriptor_);
 					printer->Print(
 						variables_,
-						"PrintField(\"$field_name$\", $name$_, writer);\n");
+						"PrintField(\"$field_name$\", _$name$, writer);\n");
 				}
 
 				void RepeatedMessageFieldGenerator::GenerateCloningCode(io::Printer* printer) {
 					printer->Print(variables_,
-						"$name$_ = pbc::RepeatedField<$type_name$>.Clone(other.$name$_);\n");
+						"_$name$ = pbc::RepeatedField<$type_name$>.Clone(other._$name$);\n");
 				}
 
 				void RepeatedMessageFieldGenerator::GenerateFreezingCode(io::Printer* printer) {

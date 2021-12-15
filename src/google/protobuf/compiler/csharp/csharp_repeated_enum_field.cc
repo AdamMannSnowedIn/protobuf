@@ -62,60 +62,60 @@ namespace google {
 						"    = pb::FieldCodec.ForEnum($tag$, x => (int) x, x => ($type_name$) x);\n"
 						"[UnityEngine.SerializeField]\n");
 					printer->Print(variables_,
-						"private scg::List<$type_name$> $name$_ = new scg::List<$type_name$>();\n");
+						"private scg::List<$type_name$> _$name$ = new scg::List<$type_name$>();\n");
 					WritePropertyDocComment(printer, descriptor_);
 					AddPublicMemberAttributes(printer);
 					printer->Print(
 						variables_,
 						"$access_level$ scg::List<$type_name$> $property_name$ {\n"
-						"  get { return $name$_; }\n"
+						"  get { return _$name$; }\n"
 						"}\n");
 				}
 
 				void RepeatedEnumFieldGenerator::GenerateMergingCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"$name$_.AddRange(other.$name$_);\n");
+						"_$name$.AddRange(other._$name$);\n");
 				}
 
 				void RepeatedEnumFieldGenerator::GenerateParsingCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"pbc::RepeatedField<$type_name$>.AddEntriesFrom($name$_, input, _repeated_$name$_codec);\n");
+						"pbc::RepeatedField<$type_name$>.AddEntriesFrom(_$name$, input, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedEnumFieldGenerator::GenerateSerializationCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"pbc::RepeatedField<$type_name$>.WriteTo($name$_, output, _repeated_$name$_codec);\n");
+						"pbc::RepeatedField<$type_name$>.WriteTo(_$name$, output, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedEnumFieldGenerator::GenerateSerializedSizeCode(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"size += pbc::RepeatedField<$type_name$>.CalculateSize($name$_, _repeated_$name$_codec);\n");
+						"size += pbc::RepeatedField<$type_name$>.CalculateSize(_$name$, _repeated_$name$_codec);\n");
 				}
 
 				void RepeatedEnumFieldGenerator::WriteHash(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"hash ^= $name$_.GetHashCode();\n");
+						"hash ^= _$name$.GetHashCode();\n");
 				}
 
 				void RepeatedEnumFieldGenerator::WriteEquals(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"if(!$name$_.Equals(other.$name$_)) return false;\n");
+						"if(!_$name$.Equals(other._$name$)) return false;\n");
 				}
 
 				void RepeatedEnumFieldGenerator::WriteToString(io::Printer* printer) {
 					printer->Print(variables_,
-						"PrintField(\"$descriptor_name$\", $name$_, writer);\n");
+						"PrintField(\"$descriptor_name$\", _$name$, writer);\n");
 				}
 
 				void RepeatedEnumFieldGenerator::GenerateCloningCode(io::Printer* printer) {
 					printer->Print(variables_,
-						"$name$_ = pbc::RepeatedField<$type_name$>.Clone(other.$name$_);\n");
+						"_$name$ = pbc::RepeatedField<$type_name$>.Clone(other._$name$);\n");
 				}
 
 				void RepeatedEnumFieldGenerator::GenerateExtensionCode(io::Printer* printer) {

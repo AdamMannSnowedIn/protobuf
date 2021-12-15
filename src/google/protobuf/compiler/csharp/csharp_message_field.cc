@@ -54,8 +54,8 @@ namespace google {
 					const Options* options)
 					: FieldGeneratorBase(descriptor, presenceIndex, options) {
 					if (!IsProto2(descriptor_->file())) {
-						variables_["has_property_check"] = name() + "_ != null";
-						variables_["has_not_property_check"] = name() + "_ == null";
+						variables_["has_property_check"] = "_" + name() + " != null";
+						variables_["has_not_property_check"] = "_" + name() + " == null";
 					}
 				}
 
@@ -67,15 +67,15 @@ namespace google {
 					printer->Print(
 						variables_,
 						"[UnityEngine.SerializeField]\n"
-						"private $type_name$ $name$_;\n");
+						"private $type_name$ _$name$;\n");
 					WritePropertyDocComment(printer, descriptor_);
 					AddPublicMemberAttributes(printer);
 					printer->Print(
 						variables_,
 						"$access_level$ $type_name$ $property_name$ {\n"
-						"  get { return $name$_; }\n"
-						"  internal set {\n"
-						"    $name$_ = value;\n"
+						"  get { return _$name$; }\n"
+						"  set {\n"
+						"    _$name$ = value;\n"
 						"  }\n"
 						"}\n");
 					if (IsProto2(descriptor_->file())) {
@@ -86,7 +86,7 @@ namespace google {
 						printer->Print(
 							variables_,
 							"$access_level$ bool Has$property_name$ {\n"
-							"  get { return $name$_ != null; }\n"
+							"  get { return _$name$ != null; }\n"
 							"}\n");
 						printer->Print(
 							variables_,
@@ -95,7 +95,7 @@ namespace google {
 						printer->Print(
 							variables_,
 							"$access_level$ void Clear$property_name$() {\n"
-							"  $name$_ = null;\n"
+							"  _$name$ = null;\n"
 							"}\n");
 					}
 				}
@@ -176,7 +176,7 @@ namespace google {
 					variables_["field_name"] = GetFieldName(descriptor_);
 					printer->Print(
 						variables_,
-						"PrintField(\"$field_name$\", has$property_name$, $name$_, writer);\n");
+						"PrintField(\"$field_name$\", has$property_name$, _$name$, writer);\n");
 				}
 				void MessageFieldGenerator::GenerateExtensionCode(io::Printer* printer) {
 					WritePropertyDocComment(printer, descriptor_);
@@ -190,7 +190,7 @@ namespace google {
 				}
 				void MessageFieldGenerator::GenerateCloningCode(io::Printer* printer) {
 					printer->Print(variables_,
-						"$name$_ = other.$has_property_check$ ? other.$name$_.Clone() : null;\n");
+						"_$name$ = other.$has_property_check$ ? other._$name$.Clone() : null;\n");
 				}
 
 				void MessageFieldGenerator::GenerateFreezingCode(io::Printer* printer) {
@@ -227,9 +227,9 @@ namespace google {
 					printer->Print(
 						variables_,
 						"$access_level$ $type_name$ $property_name$ {\n"
-						"  get { return $has_property_check$ ? ($type_name$) $oneof_name$_ : null; }\n"
-						"  internal set {\n"
-						"    $oneof_name$_ = value;\n"
+						"  get { return $has_property_check$ ? ($type_name$) _$oneof_name$ : null; }\n"
+						"  set {\n"
+						"    _$oneof_name$ = value;\n"
 						"    $oneof_name$Case_ = value == null ? $oneof_property_name$OneofCase.None : $oneof_property_name$OneofCase.$property_name$;\n"
 						"  }\n"
 						"}\n");
@@ -285,7 +285,7 @@ namespace google {
 				void MessageOneofFieldGenerator::WriteToString(io::Printer* printer) {
 					printer->Print(
 						variables_,
-						"PrintField(\"$descriptor_name$\", $has_property_check$, $oneof_name$_, writer);\n");
+						"PrintField(\"$descriptor_name$\", $has_property_check$, _$oneof_name$, writer);\n");
 				}
 
 				void MessageOneofFieldGenerator::GenerateCloningCode(io::Printer* printer) {
