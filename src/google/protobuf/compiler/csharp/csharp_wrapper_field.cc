@@ -215,10 +215,10 @@ namespace google {
 					printer->Print(
 						variables_,
 						"$access_level$ $type_name$ $property_name$ {\n"
-						"  get { return $has_property_check$ ? ($type_name$) $oneof_name$_ : ($type_name$) null; }\n"
+						"  get { return $has_property_check$ ? ($type_name$) _$oneof_name$ : ($type_name$) null; }\n"
 						"  internal set {\n"
-						"    $oneof_name$_ = value;\n"
-						"    $oneof_name$Case_ = value == null ? $oneof_property_name$OneofCase.None : $oneof_property_name$OneofCase.$property_name$;\n"
+						"    _$oneof_name$ = value;\n"
+						"    _$oneof_name$Case = value == null ? $oneof_property_name$OneofCase.None : $oneof_property_name$OneofCase.$property_name$;\n"
 						"  }\n"
 						"}\n");
 					if (IsProto2(descriptor_->file())) {
@@ -229,7 +229,7 @@ namespace google {
 						printer->Print(
 							variables_,
 							"$access_level$ bool Has$property_name$ {\n"
-							"  get { return $oneof_name$Case_ == $oneof_property_name$OneofCase.$property_name$; }\n"
+							"  get { return _$oneof_name$Case == $oneof_property_name$OneofCase.$property_name$; }\n"
 							"}\n");
 						printer->Print(
 							variables_,
@@ -260,7 +260,7 @@ namespace google {
 					printer->Print(
 						variables_,
 						"if ($has_property_check$) {\n"
-						"  _oneof_$name$_codec.WriteTagAndValue(output, ($type_name$) $oneof_name$_);\n"
+						"  _oneof_$name$_codec.WriteTagAndValue(output, ($type_name$) _$oneof_name$);\n"
 						"}\n");
 				}
 

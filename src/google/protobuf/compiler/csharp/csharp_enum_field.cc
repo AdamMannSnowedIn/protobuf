@@ -108,8 +108,8 @@ void EnumOneofFieldGenerator::GenerateParsingCode(io::Printer* printer) {
   // TODO(jonskeet): What about if we read the default value?
   printer->Print(
     variables_,
-    "$oneof_name$_ = input.ReadEnum();\n"
-    "$oneof_name$Case_ = $oneof_property_name$OneofCase.$property_name$;\n");
+    "_$oneof_name$ = input.ReadEnum();\n"
+    "_$oneof_name$Case = $oneof_property_name$OneofCase.$property_name$;\n");
 }
 
 void EnumOneofFieldGenerator::GenerateSerializationCode(io::Printer* printer) {

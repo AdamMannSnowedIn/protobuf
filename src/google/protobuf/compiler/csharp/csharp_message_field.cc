@@ -230,7 +230,7 @@ namespace google {
 						"  get { return $has_property_check$ ? ($type_name$) _$oneof_name$ : null; }\n"
 						"  internal set {\n"
 						"    _$oneof_name$ = value;\n"
-						"    $oneof_name$Case_ = value == null ? $oneof_property_name$OneofCase.None : $oneof_property_name$OneofCase.$property_name$;\n"
+						"    _$oneof_name$Case = value == null ? $oneof_property_name$OneofCase.None : $oneof_property_name$OneofCase.$property_name$;\n"
 						"  }\n"
 						"}\n");
 					if (IsProto2(descriptor_->file())) {
@@ -241,7 +241,7 @@ namespace google {
 						printer->Print(
 							variables_,
 							"$access_level$ bool Has$property_name$ {\n"
-							"  get { return $oneof_name$Case_ == $oneof_property_name$OneofCase.$property_name$; }\n"
+							"  get { return _$oneof_name$Case == $oneof_property_name$OneofCase.$property_name$; }\n"
 							"}\n");
 						printer->Print(
 							variables_,
