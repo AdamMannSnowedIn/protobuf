@@ -240,18 +240,18 @@ namespace google {
 						// It's unclear exactly where they should go.
 						printer->Print(
 							vars,
-							"private $property_name$OneofCase $name$Case_ = $property_name$OneofCase.None;\n");
+							"private $property_name$OneofCase _$name$Case = $property_name$OneofCase.None;\n");
 						WriteGeneratedCodeAttributes(printer);
 						printer->Print(
 							vars,
 							"public $property_name$OneofCase $property_name$Case {\n"
-							"  get { return $name$Case_; }\n"
+							"  get { return _$name$Case; }\n"
 							"}\n\n");
 						WriteGeneratedCodeAttributes(printer);
 						printer->Print(
 							vars,
 							"public void Clear$property_name$() {\n"
-							"  $name$Case_ = $property_name$OneofCase.None;\n"
+							"  _$name$Case = $property_name$OneofCase.None;\n"
 							"  _$name$ = null;\n"
 							"}\n\n");
 					}
@@ -472,7 +472,7 @@ namespace google {
 						generator->WriteHash(printer);
 					}
 					for (int i = 0; i < descriptor_->oneof_decl_count(); i++) {
-						printer->Print("hash ^= (int) $name$Case_;\n",
+						printer->Print("hash ^= (int) _$name$Case;\n",
 							"name", UnderscoresToCamelCase(descriptor_->oneof_decl(i)->name(), false));
 					}
 					if (has_extension_ranges_) {

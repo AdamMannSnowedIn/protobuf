@@ -131,8 +131,7 @@ namespace google {
 						(*variables)["has_property_check"] = "Has" + property_name();
 					}
 					else {
-						(*variables)["has_property_check"] =
-							oneof_name() + "Case_ == " + oneof_property_name() +
+						(*variables)["has_property_check"] = "_" + oneof_name() + "Case == " + oneof_property_name() +
 							"OneofCase." + property_name();
 					}
 					(*variables)["oneof_property_name"] = oneof_property_name();
