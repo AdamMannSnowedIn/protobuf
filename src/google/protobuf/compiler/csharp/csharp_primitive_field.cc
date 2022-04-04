@@ -263,21 +263,21 @@ namespace google {
 					printer->Print(
 						variables_,
 						"$access_level$ $type_name$ $property_name$ {\n"
-						"  get { return $has_property_check$ ? ($type_name$) $oneof_name$_ : $default_value$; }\n"
+						"  get { return $has_property_check$ ? ($type_name$) _$oneof_name$ : $default_value$; }\n"
 						"  internal set {\n");
 					if (is_value_type) {
 						printer->Print(
 							variables_,
-							"    $oneof_name$_ = value;\n");
+							"    _$oneof_name$ = value;\n");
 					}
 					else {
 						printer->Print(
 							variables_,
-							"    $oneof_name$_ = pb::ProtoPreconditions.CheckNotNull(value, \"value\");\n");
+							"    _$oneof_name$ = pb::ProtoPreconditions.CheckNotNull(value, \"value\");\n");
 					}
 					printer->Print(
 						variables_,
-						"    $oneof_name$Case_ = $oneof_property_name$OneofCase.$property_name$;\n"
+						"    _$oneof_name$Case = $oneof_property_name$OneofCase.$property_name$;\n"
 						"  }\n"
 						"}\n");
 					if (IsProto2(descriptor_->file())) {
@@ -288,7 +288,7 @@ namespace google {
 						printer->Print(
 							variables_,
 							"$access_level$ bool Has$property_name$ {\n"
-							"  get { return $oneof_name$Case_ == $oneof_property_name$OneofCase.$property_name$; }\n"
+							"  get { return _$oneof_name$Case == $oneof_property_name$OneofCase.$property_name$; }\n"
 							"}\n");
 						printer->Print(
 							variables_,
@@ -310,7 +310,7 @@ namespace google {
 
 				void PrimitiveOneofFieldGenerator::WriteToString(io::Printer* printer) {
 					printer->Print(variables_,
-						"PrintField(\"$descriptor_name$\", $has_property_check$, $oneof_name$_, writer);\n");
+						"PrintField(\"$descriptor_name$\", $has_property_check$, _$oneof_name$, writer);\n");
 				}
 
 				void PrimitiveOneofFieldGenerator::GenerateParsingCode(io::Printer* printer) {
